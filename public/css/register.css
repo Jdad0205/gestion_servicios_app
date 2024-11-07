@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    /* Variables de color */
+    --color-fondo: #f8f9fa;
+    --color-texto: #333;
+    --color-principal: #39A900;
+    --color-primario-claro: #007832;
+    --color-borde: #e0e0e0;
+    --color-fondo-oscuro: #333;
+    --color-texto-oscuro: #f8f9fa;
+    --color-borde-oscuro: #555;
+    --color-sombra-verde: rgba(2, 146, 60, 0.5);
+    --color-hover: #cecbcb;
+}
+
+*::selection {
+    background-color: var(--color-principal);
+    color: var(--color-texto-oscuro);
+}
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    background: var(--color-fondo);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.contenedor-registro {
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px; /* Limitar ancho máximo */
+}
+
+form {
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 1rem; /* Espaciado entre elementos */
+}
+
+.form-group {
+    flex: 1 1 calc(50% - 0.5rem);
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--color-borde-oscuro);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+ h1, label, input, select {
+    color: var(--color-texto);
+    font-weight: bold;
+}
+input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    background-color: rgba(255, 0, 0, 0.2);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .form-group {
+        flex: 1 1 100%;
+        margin-right: 0;
+    }
+}
+
+p {
+    text-align: center;
+}
+a {
+    display: block;
+    text-decoration: none;
+    color: #4CAF50;
+
+}
+
+.modo-oscuro body {
+    background-color: var(--color-fondo-oscuro);
+}
+.modo-oscuro .contenedor-registro {
+    color: var(--color-texto-oscuro);
+    background-color: var(--color-borde-oscuro);
+}
+
+.modo-oscuro input, .modo-oscuro select {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modo-oscuro h1, .modo-oscuro label, .modo-oscuro input, .modo-oscuro select {
+    color: var(--color-texto-oscuro);
+    font-weight: bold;
+}
+
+.modo-oscuro select:focus {
+    border-color: var(--color-texto-oscuro);
+    background: var(--color-borde-oscuro);
+}
