@@ -1,29 +1,56 @@
 <?php
 
+// app/Models/User.php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use Notifiable;
 
+    // Nombre de la tabla en la base de datos
+    protected $table = 'usuarios';  // Cambiar si es necesario
+
+    // Definir la clave primaria si es diferente a 'id'
+    protected $primaryKey = 'id';
+
+    // Si no estás usando 'created_at' y 'updated_at', pon la siguiente línea
+    public $timestamps = false;
+
+    // Definir las columnas que se pueden asignar masivamente
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role_id',
+        'nombre_usuario', 
+        'correo', 
+        'contrasena',
+        'id_rol',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // Métodos de autenticación personalizados
+    public function getAuthIdentifierName()
+    {
+        return 'id';  // Cambiar si usas otro campo como identificador
+    }
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function getAuthIdentifier()
+    {
+        return $this->getKey();  // Devuelve la clave primaria
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->contrasena;  // Campo de la contraseña
+    }
+
+    public function getRememberToken()
+    {
+        return $this->remember_token;  // Token de "remember me" si es necesario
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
+    }
 }

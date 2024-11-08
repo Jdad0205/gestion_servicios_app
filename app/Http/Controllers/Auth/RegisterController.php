@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -27,13 +27,13 @@ class RegisterController extends Controller
         // Validar la solicitud
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:Usuarios',
             'password' => 'required|string|min:8|confirmed',
             'role_id' => 'required|exists:roles,id', // Validar que role_id exista en la tabla 'roles'
         ]);
 
         // Crear el usuario
-        $user = User::create([
+        $Usuario = Usuario::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Encriptar la contraseña
@@ -41,7 +41,7 @@ class RegisterController extends Controller
         ]);
 
         // Autenticar al usuario recién registrado
-        Auth::login($user);
+        Auth::login($Usuario);
 
         // Redirigir al usuario al dashboard
         return redirect()->route('dashboard');

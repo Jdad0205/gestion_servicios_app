@@ -9,17 +9,34 @@ class Factura extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cliente_id', 'servicio_id', 'fecha', 'monto'];
+    // Nombre de la tabla en la base de datos
+    protected $table = 'facturas';  // Cambiar si es necesario
 
-    // Relación con Cliente
+    // Definir la clave primaria si es diferente a 'id'
+    protected $primaryKey = 'id'; 
+
+    // Habilitar o deshabilitar los timestamps si la tabla no los usa
+    public $timestamps = true;  // true si usas created_at y updated_at
+
+    // Definir las columnas que se pueden asignar masivamente
+    protected $fillable = [
+        'id_contrato',
+        'id_cliente',
+        'precio',
+        'impuestos',
+        'total_pagar',
+        'fecha_emision',
+    ];
+
+    // Relación con el modelo Cliente
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(Cliente::class, 'id_cliente');
     }
 
-    // Relación con Servicio
-    public function servicio()
+    // Relación con el modelo Contrato
+    public function contrato()
     {
-        return $this->belongsTo(Servicio::class);
+        return $this->belongsTo(Contrato::class, 'id_contrato');
     }
 }

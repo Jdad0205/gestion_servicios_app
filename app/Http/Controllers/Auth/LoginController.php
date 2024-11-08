@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller; // IMPORTANTE: Esto es necesario para exten
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
+use App\Models\Usuario;
 
 class LoginController extends Controller // Extiende de Controller
 {
@@ -29,9 +29,7 @@ class LoginController extends Controller // Extiende de Controller
             return redirect()->route('dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
-        ]);
+        return redirect()->route('login')->with('error', 'Las credenciales no coinciden');
     }
 
     // Cierra la sesión

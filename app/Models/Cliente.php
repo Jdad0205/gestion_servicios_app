@@ -9,7 +9,15 @@ class Cliente extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nombre', 'correo', 'direccion', 'telefono', 'detalle'
-    ];
+    protected $fillable = ['nombre', 'correo', 'direccion', 'telefono', 'detalle'];
+
+    public function contratos()
+    {
+        return $this->hasMany(Contrato::class);
+    }
+
+    public function facturas()
+    {
+        return $this->hasMany(Factura::class, 'id_cliente');
+    }
 }

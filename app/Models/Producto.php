@@ -8,16 +8,15 @@ class Producto extends Model
 {
     use HasFactory;
 
-    // Definir la tabla
-    protected $table = 'productos';
+    protected $fillable = ['nombre', 'descripcion', 'precio'];
 
-    // Definir los campos que pueden ser llenados masivamente
-    protected $fillable = [
-        'nombre', // nombre del producto
-        'descripcion', // descripción del producto
-        'precio', // precio del producto
-    ];
+    public function contratoProductos()
+    {
+        return $this->hasMany(ContratoProducto::class);
+    }
 
-    // Deshabilitar la gestión de timestamps si no los necesitas (si tu tabla no usa created_at y updated_at)
-    public $timestamps = false;
+    public function facturaProductos()
+    {
+        return $this->hasMany(FacturaProducto::class);
+    }
 }

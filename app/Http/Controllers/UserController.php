@@ -1,103 +1,92 @@
 <?php
+// app/Http/Controllers/UserController.php
+
 namespace App\Http\Controllers;
 
+use App;
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 
 class UserController extends Controller
 {
-    // Constructor con middleware de autenticación y autorización
-    public function __construct()
-    {
-        // Asegúrate de que el usuario esté autenticado y tenga permisos de administrador
-        $this->middleware('auth');
-        $this->middleware('can:manage-users'); // O usa un middleware para roles específicos
-    }
-
-    // Muestra una lista de todos los usuarios
+    // Mostrar todos los usuarios
     public function index()
     {
-        $users = User::paginate(10); // Paginación para mostrar 10 usuarios por página
+        $users = User::all();
         return view('users.index', compact('users'));
     }
 
-    // Muestra el formulario para crear un nuevo usuario
+    // Mostrar el formulario para crear un nuevo usuario
     public function create()
     {
-        // Obtenemos todos los roles disponibles para asignar al usuario
-        $roles = Role::all();
-        return view('users.create', compact('roles'));
+        $roles = Role::all();  // Obtener todos los roles para mostrarlos en el formulario
+        return view('users.create', compact('roles'));  // Pasa los roles a la vista
     }
-
-    // Almacena un nuevo usuario
+    
+    // Almacenar un nuevo usuario en la base de datos
     public function store(Request $request)
     {
-        // Validación de los datos
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed', // Asegúrate de que se confirme la contraseña
-            'role_id' => 'required|exists:roles,id', // Asegúrate de que el role_id exista en la tabla roles
+            'nombre_usuario' => 'required|max:50',
+            'correo' => 'required|email|unique:usuarios,correo',
+            'contrasena' => 'required|min:8|confirmed',
+            'id_rol' => 'required|exists:roles,id'
         ]);
 
-        // Crear un nuevo usuario
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->role_id,
+            'nombre_usuario' => $request->nombre_usuario,
+            'correo' => $request->correo,
+            'contrasena' => Hash::make($request->contrasena),
+            'id_rol' => $request->id_rol,
         ]);
 
-        // Redirigir a la lista de usuarios con un mensaje de éxito
-        return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
+        return redirect()->route('users.index');
     }
 
-    // Muestra el formulario para editar un usuario
-    public function edit(User $user)
+    // Mostrar los detalles de un usuario
+    public function show($id)
     {
-        // Obtener todos los roles
-        $roles = Role::all();
+        $user = User::findOrFail($id);
+        return view('users.show', compact('user'));
+    }
+
+    // Mostrar el formulario para editar un usuario
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();  // Obtener todos los roles para mostrarlos en el formulario
         return view('users.edit', compact('user', 'roles'));
     }
 
-    // Actualiza los datos de un usuario
-    public function update(Request $request, User $user)
+    // Actualizar un usuario
+    public function update(Request $request, $id)
     {
-        // Validar los datos
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id, // Excluimos el correo actual
-            'password' => 'nullable|string|min:8|confirmed', // El campo de password es opcional en la actualización
-            'role_id' => 'required|exists:roles,id', // Verifica que el role_id exista
+            'nombre_usuario' => 'required|max:50',
+            'correo' => 'required|email|unique:usuarios,correo,' . $id,
+            'contrasena' => 'nullable|min:8|confirmed',
+            'id_rol' => 'required|exists:roles,id'
         ]);
 
-        // Actualizamos los datos del usuario
+        $user = User::findOrFail($id);
         $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? Hash::make($request->password) : $user->password, // Solo actualizamos la contraseña si se proporcionó
-            'role_id' => $request->role_id,
+            'nombre_usuario' => $request->nombre_usuario,
+            'correo' => $request->correo,
+            'contrasena' => $request->contrasena ? Hash::make($request->contrasena) : $user->contrasena,
+            'id_rol' => $request->id_rol,
         ]);
 
-        // Redirigir a la lista de usuarios con un mensaje de éxito
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado exitosamente.');
+        return redirect()->route('users.index');
     }
 
-    // Elimina un usuario
-    public function destroy(User $user)
+    // Eliminar un usuario
+    public function destroy($id)
     {
-        // Verificar que no sea el usuario autenticado
-        if ($user->id === Auth::id()) {
-            return redirect()->route('users.index')->with('error', 'No puedes eliminar tu propio usuario.');
-        }
-
-        // Eliminar el usuario
+        $user = User::findOrFail($id);
         $user->delete();
 
-        // Redirigir a la lista de usuarios con un mensaje de éxito
-        return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
+        return redirect()->route('users.index');
     }
 }

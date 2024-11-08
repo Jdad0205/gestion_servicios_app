@@ -4,68 +4,107 @@ namespace App\Http\Controllers;
 
 use App\Models\Factura;
 use App\Models\Cliente;
-use App\Models\Servicio;
+use App\Models\Contrato;
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    // Mostrar todas las facturas
     public function index()
     {
-        $facturas = Factura::all();
-        return view('facturas.index', compact('facturas'));
+        $facturas = Factura::all();  // Obtener todas las facturas
+        return view('facturas.index', compact('facturas'));  // Vista para listar las facturas
     }
 
+    // Mostrar el formulario para crear una nueva factura
     public function create()
     {
+        // Obtener clientes y contratos para el formulario
         $clientes = Cliente::all();
-        $servicios = Servicio::all();
-        return view('facturas.create', compact('clientes', 'servicios'));
+        $contratos = Contrato::all();
+        
+        return view('facturas.create', compact('clientes', 'contratos'));  // Vista para crear factura
     }
 
+    // Almacenar una nueva factura
     public function store(Request $request)
     {
+        // Validación de los datos recibidos
         $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
-            'servicio_id' => 'required|exists:servicios,id',
-            'fecha' => 'required|date',
-            'monto' => 'required|numeric',
+            'id_contrato' => 'required|exists:contratos,id',  // Verificar que el contrato exista
+            'id_cliente' => 'required|exists:clientes,id',  // Verificar que el cliente exista
+            'precio' => 'required|numeric',
+            'impuestos' => 'required|numeric',
+            'total_pagar' => 'required|numeric',
+            'fecha_emision' => 'required|date',
         ]);
 
-        Factura::create($request->all());
+        // Crear una nueva factura
+        Factura::create([
+            'id_contrato' => $request->id_contrato,
+            'id_cliente' => $request->id_cliente,
+            'precio' => $request->precio,
+            'impuestos' => $request->impuestos,
+            'total_pagar' => $request->total_pagar,
+            'fecha_emision' => $request->fecha_emision,
+        ]);
 
-        return redirect()->route('facturas.index')->with('success', 'Factura creada exitosamente.');
+        // Redirigir a la lista de facturas
+        return redirect()->route('facturas.index');
     }
 
-    public function edit(Factura $factura)
+    // Mostrar los detalles de una factura específica
+    public function show($id)
     {
+        $factura = Factura::findOrFail($id);  // Encontrar factura por id
+        return view('facturas.show', compact('factura'));  // Vista para mostrar los detalles de la factura
+    }
+
+    // Mostrar el formulario para editar una factura
+    public function edit($id)
+    {
+        $factura = Factura::findOrFail($id);  // Obtener factura a editar
         $clientes = Cliente::all();
-        $servicios = Servicio::all();
-        return view('facturas.edit', compact('factura', 'clientes', 'servicios'));
+        $contratos = Contrato::all();
+        
+        return view('facturas.edit', compact('factura', 'clientes', 'contratos'));  // Vista para editar factura
     }
 
-    public function update(Request $request, Factura $factura)
+    // Actualizar una factura
+    public function update(Request $request, $id)
     {
+        // Validación de los datos recibidos
         $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
-            'servicio_id' => 'required|exists:servicios,id',
-            'fecha' => 'required|date',
-            'monto' => 'required|numeric',
+            'id_contrato' => 'required|exists:contratos,id',
+            'id_cliente' => 'required|exists:clientes,id',
+            'precio' => 'required|numeric',
+            'impuestos' => 'required|numeric',
+            'total_pagar' => 'required|numeric',
+            'fecha_emision' => 'required|date',
         ]);
 
-        $factura->update($request->all());
+        // Encontrar factura y actualizar
+        $factura = Factura::findOrFail($id);
+        $factura->update([
+            'id_contrato' => $request->id_contrato,
+            'id_cliente' => $request->id_cliente,
+            'precio' => $request->precio,
+            'impuestos' => $request->impuestos,
+            'total_pagar' => $request->total_pagar,
+            'fecha_emision' => $request->fecha_emision,
+        ]);
 
-        return redirect()->route('facturas.index')->with('success', 'Factura actualizada exitosamente.');
+        // Redirigir a la lista de facturas
+        return redirect()->route('facturas.index');
     }
 
-    public function destroy(Factura $factura)
+    // Eliminar una factura
+    public function destroy($id)
     {
-        $factura->delete();
+        $factura = Factura::findOrFail($id);
+        $factura->delete();  // Eliminar factura
 
-        return redirect()->route('facturas.index')->with('success', 'Factura eliminada exitosamente.');
+        // Redirigir a la lista de facturas
+        return redirect()->route('facturas.index');
     }
 }

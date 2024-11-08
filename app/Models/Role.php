@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,12 +11,11 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles'; // Define el nombre de la tabla en la base de datos
-    protected $fillable = ['nombre']; // Los campos que se pueden asignar masivamente
+    protected $fillable = ['nombre'];
 
-    // Relación con los usuarios (Un rol puede tener muchos usuarios)
-    public function users()
+    public function usuarios()
     {
-        return $this->hasMany(User::class, 'role_id');
+        return $this->hasMany(Usuario::class);
     }
 }
+

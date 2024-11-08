@@ -27,7 +27,7 @@
   
 
     <!-- Título dinámico -->
-    <div><h2>@yield('titulo', 'Mi título')</h2></div>
+    <div><h2 id="titulo-pagina">@yield('titulo', '')</h2></div>
     
     <!-- Menú de perfil -->
     <div class="dropdown" style="position: relative;">
@@ -82,6 +82,11 @@
 
 <a href="{{ route('facturas.index') }}" class="opcion-barra-navegacion {{ Request::is('facturas*') ? 'active' : '' }}">
 <i class="bi bi-file-text"></i><span class="texto-barra-lateral">Facturas</span>
+</a>
+
+<a href="{{ route('pqr.index') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">
+<i class="bi bi-envelope-exclamation"></i>
+    <span class="texto-barra-lateral">PQR</span>
 </a>
 
 

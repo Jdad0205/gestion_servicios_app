@@ -1,4 +1,5 @@
 <?php
+// app/Http/Controllers/ClienteController.php
 
 namespace App\Http\Controllers;
 
@@ -7,61 +8,80 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    // Mostrar todos los clientes
     public function index()
     {
         $clientes = Cliente::all();
         return view('clientes.index', compact('clientes'));
     }
 
+    // Mostrar el formulario para crear un nuevo cliente
     public function create()
     {
         return view('clientes.create');
     }
 
+    // Almacenar un nuevo cliente
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'correo' => 'required|email|max:100|unique:clientes',
-            'telefono' => 'required|string|max:10',
-            'direccion' => 'required|string|max:100',
-            'detalle' => 'nullable|string|max:100',
+            'nombre' => 'required|max:100',
+            'telefono' => 'nullable|max:15',
+            'direccion' => 'nullable|max:255',
+            'correo' => 'nullable|email|max:100|unique:clientes,correo',
         ]);
 
-        Cliente::create($request->all());
+        Cliente::create([
+            'nombre' => $request->nombre,
+            'telefono' => $request->telefono,
+            'direccion' => $request->direccion,
+            'correo' => $request->correo,
+        ]);
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente creado exitosamente.');
+        return redirect()->route('clientes.index');
     }
 
-    public function edit(Cliente $cliente)
+    // Mostrar los detalles de un cliente
+    public function show($id)
     {
+        $cliente = Cliente::findOrFail($id);
+        return view('clientes.show', compact('cliente'));
+    }
+
+    // Mostrar el formulario para editar un cliente
+    public function edit($id)
+    {
+        $cliente = Cliente::findOrFail($id);
         return view('clientes.edit', compact('cliente'));
     }
 
-    public function update(Request $request, Cliente $cliente)
+    // Actualizar un cliente
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'correo' => 'required|email|max:100|unique:clientes,correo,' . $cliente->id,
-            'telefono' => 'required|string|max:10',
-            'direccion' => 'required|string|max:100',
-            'detalle' => 'nullable|string|max:100',
+            'nombre' => 'required|max:100',
+            'telefono' => 'nullable|max:15',
+            'direccion' => 'nullable|max:255',
+            'correo' => 'nullable|email|max:100|unique:clientes,correo,' . $id,
         ]);
 
-        $cliente->update($request->all());
+        $cliente = Cliente::findOrFail($id);
+        $cliente->update([
+            'nombre' => $request->nombre,
+            'telefono' => $request->telefono,
+            'direccion' => $request->direccion,
+            'correo' => $request->correo,
+        ]);
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente actualizado exitosamente.');
+        return redirect()->route('clientes.index');
     }
 
-    public function destroy(Cliente $cliente)
+    // Eliminar un cliente
+    public function destroy($id)
     {
+        $cliente = Cliente::findOrFail($id);
         $cliente->delete();
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente eliminado exitosamente.');
+        return redirect()->route('clientes.index');
     }
 }

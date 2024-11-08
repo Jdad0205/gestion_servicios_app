@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Servicio;
@@ -7,11 +6,6 @@ use Illuminate\Http\Request;
 
 class ServicioController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $servicios = Servicio::all();
@@ -26,33 +20,44 @@ class ServicioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:50',
-            'descripcion' => 'required|string|max:150',
-            'firma' => 'required|string|max:70',
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'firma' => 'nullable|string|max:100',
         ]);
 
         Servicio::create($request->all());
-
-        return redirect()->route('servicios.index')->with('success', 'Servicio creado exitosamente.');
+        return redirect()->route('servicios.index');
     }
 
-    public function edit(Servicio $servicio)
+    public function show($id)
     {
+        $servicio = Servicio::findOrFail($id);
+        return view('servicios.show', compact('servicio'));
+    }
+
+    public function edit($id)
+    {
+        $servicio = Servicio::findOrFail($id);
         return view('servicios.edit', compact('servicio'));
     }
 
-    public function update(Request $request, Servicio $servicio)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:50',
-            'descripcion' => 'required|string|max:150',
-            'firma' => 'required|string|max:70',
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'firma' => 'nullable|string|max:100',
         ]);
 
+        $servicio = Servicio::findOrFail($id);
         $servicio->update($request->all());
-
-        return redirect()->route('servicios.index')->with('success', 'Servicio actualizado exitosamente.');
+        return redirect()->route('servicios.index');
     }
 
-   
+    public function destroy($id)
+    {
+        $servicio = Servicio::findOrFail($id);
+        $servicio->delete();
+        return redirect()->route('servicios.index');
+    }
 }

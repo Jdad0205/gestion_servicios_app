@@ -10,6 +10,9 @@ class Servicio extends Model
     use HasFactory;
 
     protected $fillable = ['nombre', 'descripcion', 'firma'];
-     // Deshabilitar la gestión de timestamps si no los necesitas (si tu tabla no usa created_at y updated_at)
-     public $timestamps = false;
+
+    public function contratos()
+    {
+        return $this->hasMany(Contrato::class);
+    }
 }

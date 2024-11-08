@@ -11,6 +11,8 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\FacturaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PQRController;
+
 
 // Ruta principal (home)
 Route::get('/', function () {
@@ -45,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Rutas de Facturas
     Route::resource('facturas', FacturaController::class);
+
+    Route::resource('pqr', PQRController::class);
+
     
 });
 
@@ -53,3 +58,4 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Aquí puedes agregar rutas específicas para la administración si las necesitas
     Route::get('dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
 });
+
