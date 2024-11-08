@@ -64,6 +64,12 @@ Route::post('/pqr-cliente/prodcutos/solicitar/{id}', [PqrController::class, 'sol
     Route::resource('pqr', PQRController::class);
 });
 
+
+Route::get('/chat', function () {
+    return view('chat');
+})->name('chat');  // Aquí le asignamos el nombre "chat" a la ruta
+
+Route::post('/chat/{chat_id}/enviar', [ChatController::class, 'enviarMensaje'])->middleware('auth');
 // Rutas de administración con rol de 'admin'
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Aquí puedes agregar rutas específicas para la administración si las necesitas

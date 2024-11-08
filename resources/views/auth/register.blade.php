@@ -102,12 +102,14 @@
 
         <!-- Selección de Rol -->
         <div>
-            <label for="id_rol">Rol</label>
-            <select id="id_rol" name="id_rol" required>
+            <select id="id_rol" name="id_rol" required readonly style="display: none;">
                 <option value="" disabled selected>Selecciona un rol</option>
                 @foreach($roles as $role)
-                    <option value="{{ $role->id }}">{{ $role->nombre }}</option>
-                @endforeach
+        <option value="{{ $role->id }}" 
+                @if($role->id == 2) selected @endif>
+            {{ $role->nombre }}
+        </option>
+    @endforeach
             </select>
 
         </div>

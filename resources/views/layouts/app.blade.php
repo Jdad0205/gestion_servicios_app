@@ -91,10 +91,18 @@
             <i class="bi bi-envelope-exclamation"></i>
             <span class="texto-barra-lateral">PQR</span>
         </a>
+        <a href="{{ route('chat') }}" class="opcion-barra-navegacion {{ Request::is('chat*') ? 'active' : '' }}">
+        <i class="bi bi-chat-square-dots"></i>
+            <span class="texto-barra-lateral">Chat</span>
+        </a>
         @elseif(auth()->user()->id_rol == '3')
         <a href="{{ route('pqr.index_soporte') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">
             <i class="bi bi-envelope-exclamation"></i>
             <span class="texto-barra-lateral">PQR</span>
+        </a>
+        <a href="{{ route('chat') }}" class="opcion-barra-navegacion {{ Request::is('chat*') ? 'active' : '' }}">
+        <i class="bi bi-chat-square-dots"></i>
+            <span class="texto-barra-lateral">Chat</span>
         </a>
         @endif
         @endauth
