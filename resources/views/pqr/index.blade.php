@@ -26,11 +26,11 @@
                         <td>{{ $pqr->estado }}</td>
                         <td>{{ $pqr->fecha_creacion }}</td>
                         <td>
-                            <a href="{{ route('pqr.edit', $pqr->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{{ route('pqr.edit', $pqr->id) }}" class="btn btn-info btn-sm"><i class="bi bi-pencil"></i></a>
                             <form action="{{ route('pqr.destroy', $pqr->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                             </form>
                         </td>
                     </tr>

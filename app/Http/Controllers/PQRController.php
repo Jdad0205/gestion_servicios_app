@@ -28,23 +28,23 @@ class PQRController extends Controller
     
     public function store(Request $request)
 {
+    try {
     // Validar los datos del formulario
     $request->validate([
         'id_cliente' => 'required|integer',
         'tipo' => 'required|string|max:255',
         'descripcion' => 'required|string',
         'estado' => 'required|string|max:50',
-        'fecha_creacion' => 'required|date',
     ]);
 
-    try {
+
         // Intentar crear la PQR
         PQR::create([
             'id_cliente' => $request->id_cliente,
             'tipo' => $request->tipo,
             'descripcion' => $request->descripcion,
             'estado' => $request->estado,
-            'fecha_creacion' => $request->fecha_creacion,
+            'fecha_creacion' => now(),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -53,8 +53,10 @@ class PQRController extends Controller
         return redirect()->route('pqr.index')->with('success', 'PQR creada exitosamente.');
 
     } catch (\Exception $e) {
-        // Capturar cualquier excepción y redirigir con mensaje de error
+
+        // Redirigir a la lista con el mensaje de error
         return redirect()->route('pqr.index')->with('error', 'Error al crear la PQR: ' . $e->getMessage());
+        // Capturar cualquier excepción y redirigir con mensaje de error
     }
 }
 

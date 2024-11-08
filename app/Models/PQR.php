@@ -25,4 +25,11 @@ class PQR extends Model
 
     // Definir los campos de tipo fecha
     protected $dates = ['fecha_creacion', 'created_at', 'updated_at'];
+
+    // En el modelo PQR
+public function cliente()
+{
+    return $this->belongsTo(Cliente::class, 'id_cliente');
+}
+
 }

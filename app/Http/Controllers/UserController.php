@@ -7,16 +7,27 @@ use App;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Role;
 
 class UserController extends Controller
 {
     // Mostrar todos los usuarios
     public function index()
-    {
-        $users = User::all();
-        return view('users.index', compact('users'));
-    }
+{
+        // Traemos los usuarios junto con el nombre de su rol
+        $users = DB::table('usuarios')
+        ->join('roles', 'usuarios.id_rol', '=', 'roles.id')
+        ->select('usuarios.*', 'roles.nombre as rol_nombre')
+        ->get(); // Esto debe traer todos los usuarios con sus roles
+
+
+
+
+    return view('users.index', compact('users'));
+}
+
 
     // Mostrar el formulario para crear un nuevo usuario
     public function create()

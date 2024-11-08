@@ -18,10 +18,13 @@
         <tr>
             <td>{{ $user->nombre_usuario }}</td>
             <td>{{ $user->correo }}</td>
-            <td>{{ $user->id_rol }}</td>
+            <td>{{ $user->rol_nombre }}</td>
             <td>
-                <a href="{{ route('usuarios.edit', $user) }}" class="btn btn-info btn-sm"><i class="bi bi-pencil"></i></a>
-                <form action="{{ route('usuarios.destroy', $user) }}" method="POST" style="display:inline;">
+                <!-- Usar $user->id en lugar del objeto completo -->
+                <a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-info btn-sm"><i class="bi bi-pencil"></i></a>
+                
+                <!-- Usar $user->id en lugar del objeto completo -->
+                <form action="{{ route('usuarios.destroy', $user->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
