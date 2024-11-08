@@ -32,7 +32,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Rutas de usuarios autenticados (middleware auth)
 Route::middleware(['auth'])->group(function () {
-    
+
     // Rutas de Usuarios
     Route::resource('usuarios', UserController::class);
 
@@ -40,19 +40,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('clientes', ClienteController::class);
 
     // Rutas de Productos
-    Route::get('/productos/cliente', [ProductoController::class, 'indexCliente'])->name('productos.index_cliente');
+    Route::get('/productos-cliente', [ProductoController::class, 'indexCliente'])->name('productos.index_cliente');
     Route::resource('productos', ProductoController::class);
     // Ruta para el cliente
-    
+
     // Rutas de Servicios
+    Route::get('/servicios-cliente', [ServicioController::class, 'indexCliente'])->name('servicios.index_cliente');
     Route::resource('servicios', ServicioController::class);
 
     // Rutas de Facturas
     Route::resource('facturas', FacturaController::class);
 
+    Route::get('/pqr-cliente', [PQRController::class, 'indexCliente'])->name('pqr.index_cliente');
     Route::resource('pqr', PQRController::class);
-
-    
 });
 
 // Rutas de administración con rol de 'admin'
@@ -60,4 +60,3 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Aquí puedes agregar rutas específicas para la administración si las necesitas
     Route::get('dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
 });
-

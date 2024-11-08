@@ -1,4 +1,6 @@
 <?php
+
+
 namespace App\Http\Controllers;
 
 use App\Models\Servicio;
@@ -6,58 +8,71 @@ use Illuminate\Http\Request;
 
 class ServicioController extends Controller
 {
+    // Muestra la lista de servicios
     public function index()
     {
         $servicios = Servicio::all();
         return view('servicios.index', compact('servicios'));
     }
 
+    // Muestra el formulario para crear un nuevo servicio
     public function create()
     {
         return view('servicios.create');
     }
 
+    // Almacena un nuevo servicio en la base de datos
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'firma' => 'nullable|string|max:100',
+            'precio' => 'required|numeric|min:0',
         ]);
 
         Servicio::create($request->all());
-        return redirect()->route('servicios.index');
+
+        return redirect()->route('servicios.index')->with('success', 'Servicio creado exitosamente.');
     }
 
-    public function show($id)
+    // Muestra un servicio específico
+    public function show(Servicio $servicio)
     {
-        $servicio = Servicio::findOrFail($id);
         return view('servicios.show', compact('servicio'));
     }
 
-    public function edit($id)
+    // Muestra el formulario para editar un servicio
+    public function edit(Servicio $servicio)
     {
-        $servicio = Servicio::findOrFail($id);
         return view('servicios.edit', compact('servicio'));
     }
 
-    public function update(Request $request, $id)
+    // Actualiza un servicio en la base de datos
+    public function update(Request $request, Servicio $servicio)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'firma' => 'nullable|string|max:100',
+            'precio' => 'required|numeric|min:0',
         ]);
 
-        $servicio = Servicio::findOrFail($id);
         $servicio->update($request->all());
-        return redirect()->route('servicios.index');
+
+        return redirect()->route('servicios.index')->with('success', 'Servicio actualizado exitosamente.');
     }
 
-    public function destroy($id)
+    // Elimina un servicio de la base de datos
+    public function destroy(Servicio $servicio)
     {
-        $servicio = Servicio::findOrFail($id);
         $servicio->delete();
-        return redirect()->route('servicios.index');
+
+        return redirect()->route('servicios.index')->with('success', 'Servicio eliminado exitosamente.');
     }
+
+    public function indexCliente()
+{
+    $servicios = Servicio::paginate(9); // Puedes ajustar la cantidad por página
+    return view('servicios.index_cliente', compact('servicios'));
+}
+
 }

@@ -9,7 +9,7 @@ class Servicio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'descripcion', 'firma'];
+    protected $fillable = ['nombre', 'descripcion', 'precio'];
 
     public function contratos()
     {

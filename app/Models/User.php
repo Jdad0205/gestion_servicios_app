@@ -58,4 +58,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'id_rol');
     }
+
+ // En el modelo User
+public function cliente()
+{
+    return $this->hasOne(Cliente::class, 'id_usuario'); // Especificar que `id_usuario` es la clave foránea en `clientes`
+}
+
 }

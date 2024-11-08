@@ -80,9 +80,14 @@
         </a>
         @elseif(auth()->user()->id_rol == '2')
         <a href="{{ route('productos.index_cliente') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
-            <i class="bi bi-box"></i> <span class="texto-barra-lateral">Productos</span>
+            <i class="bi bi-cart-check"></i>
+            <span class="texto-barra-lateral">Productos</span>
         </a>
-        <a href="{{ route('pqr.index') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">
+        <a href="{{ route('servicios.index_cliente') }}" class="opcion-barra-navegacion {{ Request::is('servicios*') ? 'active' : '' }}">
+        <i class="bi bi-box"></i> 
+        <span class="texto-barra-lateral">Servicios</span>
+        </a>
+        <a href="{{ route('pqr.index_cliente') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">
             <i class="bi bi-envelope-exclamation"></i>
             <span class="texto-barra-lateral">PQR</span>
         </a>

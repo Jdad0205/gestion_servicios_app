@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\PQR;
 use App\Models\Cliente;
@@ -31,31 +32,39 @@ class PQRController extends Controller
     try {
     // Validar los datos del formulario
     $request->validate([
-        'id_cliente' => 'required|integer',
-        'tipo' => 'required|string|max:255',
         'descripcion' => 'required|string',
-        'estado' => 'required|string|max:50',
+        'tipo' => 'required|in:Peticion,Queja,Reclamo'
     ]);
 
+    // Verificar si el usuario está autenticado
+    if (Auth::check()) {  // Usando la fachada Auth en lugar de auth()
+        $user = Auth::user(); // Esto debería devolver el objeto del usuario autenticado
+        
+          // Verificar si el usuario tiene un cliente asociado
+        
+        // Buscar el cliente que tenga el mismo `id_usuario` que el `id` del usuario autenticado
+        $cliente = Cliente::where('id_usuario', $user->id)->first();
 
-        // Intentar crear la PQR
-        PQR::create([
-            'id_cliente' => $request->id_cliente,
-            'tipo' => $request->tipo,
+          if (!$cliente) {
+              return redirect()->back()->with('error', 'No se encontró un cliente asociado con este usuario.');
+          }
+  
+          dd($user, $cliente);
+        // Crear el registro de PQR en la base de datos
+        Pqr::create([
             'descripcion' => $request->descripcion,
-            'estado' => $request->estado,
-            'fecha_creacion' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'tipo' => $request->tipo,
+            'id_cliente' => $cliente->id,  // Asociar el ID del usuario autenticado
         ]);
 
-        // Redirigir a la página de índice con mensaje de éxito
-        return redirect()->route('pqr.index')->with('success', 'PQR creada exitosamente.');
-
+        return redirect()->back()->with('success', 'Su PQR ha sido registrado con éxito.');
+    } else {
+        return redirect()->route('login')->with('error', 'Por favor, inicie sesión.');
+    }
     } catch (\Exception $e) {
 
         // Redirigir a la lista con el mensaje de error
-        return redirect()->route('pqr.index')->with('error', 'Error al crear la PQR: ' . $e->getMessage());
+        return redirect()->route('pqr.index_cliente')->with('error', 'Error al crear la PQR: ' . $e->getMessage());
         // Capturar cualquier excepción y redirigir con mensaje de error
     }
 }
@@ -109,4 +118,10 @@ class PQRController extends Controller
 
         return redirect()->route('pqr.index')->with('success', 'PQR eliminada exitosamente.');
     }
+
+    public function indexCliente()
+{
+    $pqrs = PQR::paginate(9); // Puedes ajustar la cantidad por página
+    return view('pqr.index_cliente', compact('pqrs'));
+}
 }
