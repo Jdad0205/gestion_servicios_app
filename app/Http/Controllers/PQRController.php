@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\PQR;
 use App\Models\Cliente;
@@ -131,6 +132,9 @@ class PQRController extends Controller
 public function indexSoporte()
 {
     $pqrs = Pqr::with('cliente')->get();
+    $cantidadPorEstado = Pqr::select('estado', DB::raw('count(*) as total'))
+    ->groupBy('estado')
+    ->pluck('total', 'estado');
     return view('pqr.index_soporte', compact('pqrs'));
 }
 
