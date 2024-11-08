@@ -57,6 +57,9 @@ Route::middleware(['auth'])->group(function () {
 // routes/web.php
 Route::post('/pqr-cliente/servicios/solicitar/{id}', [PqrController::class, 'solicitarServicio'])->name('servicios.solicitar');
 
+// routes/web.php
+Route::post('/pqr-cliente/prodcutos/solicitar/{id}', [PqrController::class, 'solicitarProducto'])->name('productos.solicitar');
+
     Route::get('/pqr-cliente', [PQRController::class, 'indexCliente'])->name('pqr.index_cliente');
     Route::resource('pqr', PQRController::class);
 });

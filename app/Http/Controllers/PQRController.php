@@ -182,4 +182,32 @@ $cliente = Cliente::where('id_usuario', $user->id)->first();
 }
 
 
+public function solicitarProducto($id)
+    {
+        // Buscar el producto por ID
+        $producto = Producto::findOrFail($id);
+        $user = Auth::user(); // Obtener el usuario autenticado
+        
+        // Verificar si el usuario tiene un cliente asociado
+        $cliente = Cliente::where('id_usuario', $user->id)->first();
+        
+        // Verificar si se encontró el cliente
+        if (!$cliente) {
+            return redirect()->back()->with('error', 'No se encontró un cliente asociado a tu cuenta.');
+        }
+
+        // Crear una nueva PQR de tipo "Petición" para el producto
+        Pqr::create([
+            'id_cliente' => $cliente->id,  // Asociamos la PQR al cliente
+            'producto_id' => $producto->id,  // Asociamos la PQR al producto
+            'tipo' => 'Petición',           // Especificamos que es una solicitud de producto
+            'descripcion' => 'Solicitud de producto: ' . $producto->descripcion,  // Descripción de la solicitud
+        ]);
+
+        // Redirigir de vuelta con un mensaje de éxito
+        return redirect()->back()->with('success', '¡Solicitud de producto enviada correctamente!');
+    }
+
+
+
 }

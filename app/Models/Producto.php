@@ -10,13 +10,13 @@ class Producto extends Model
 
     protected $fillable = ['nombre', 'descripcion', 'precio'];
 
-    public function contratoProductos()
+    public function contratos()
     {
-        return $this->hasMany(ContratoProducto::class);
+        return $this->hasMany(Contrato::class);
     }
 
-    public function facturaProductos()
+    public function facturas()
     {
-        return $this->hasMany(FacturaProducto::class);
+        return $this->hasMany(Factura::class);
     }
 }

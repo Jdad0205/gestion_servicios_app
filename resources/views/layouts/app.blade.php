@@ -69,14 +69,14 @@
         <a href="{{ route('usuarios.index') }}" class="opcion-barra-navegacion {{ Request::is('usuarios*') ? 'active' : '' }}">
             <i class="bi bi-person"></i> <span class="texto-barra-lateral">Usuarios</span>
         </a>
-        <a href="{{ route('productos.index') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
-            <i class="bi bi-box"></i> <span class="texto-barra-lateral">Productos</span>
+        <a href="{{ route('servicios.index') }}" class="opcion-barra-navegacion {{ Request::is('servicios*') ? 'active' : '' }}">
+            <i class="bi bi-box"></i> <span class="texto-barra-lateral">Servicios</span>
         </a>
         <a href="{{ route('facturas.index') }}" class="opcion-barra-navegacion {{ Request::is('facturas*') ? 'active' : '' }}">
             <i class="bi bi-file-text"></i><span class="texto-barra-lateral">Facturas</span>
         </a>
         <a href="{{ route('productos.index') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
-            <i class="bi bi-box"></i> <span class="texto-barra-lateral">Productos</span>
+            <i class="bi bi-cart-check"></i> <span class="texto-barra-lateral">Productos</span>
         </a>
         @elseif(auth()->user()->id_rol == '2')
         <a href="{{ route('productos.index_cliente') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
