@@ -1,26 +1,38 @@
-<!-- resources/views/productos/index_cliente.blade.php -->
-
+{{-- resources/views/servicios/index_cliente.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
     <div class="container">
-        <h2>Productos Disponibles</h2>
+        <h1>Servicios Disponibles</h1>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="row">
-            @foreach($productos as $producto)
+            @foreach($servicios as $servicio)
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <!-- Muestra la imagen si tienes una columna 'imagen' en la tabla productos -->
-                        @if(isset($producto->imagen))
-                            <img src="{{ asset('img/productos/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
-                        @endif
                         <div class="card-body">
-                            <h5 class="card-title">{{ $producto->nombre }}</h5>
-                            <p class="card-text">{{ $producto->descripcion }}</p>
-                            <p class="card-text">Precio: ${{ number_format($producto->precio, 2) }}</p>
+                            <h5 class="card-title">{{ $servicio->nombre }}</h5>
+                            <p class="card-text">{{ $servicio->descripcion }}</p>
+                            <p class="card-text"><strong>Precio:</strong> ${{ number_format($servicio->precio, 2) }}</p>
+
+                            <!-- Formulario para solicitar el servicio -->
+                            <form action="{{ route('servicios.solicitar', $servicio->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">Solicitar servicio</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             @endforeach
+        </div>
+        
+        <div class="d-flex justify-content-center">
+            {{ $servicios->links() }}
         </div>
     </div>
 @endsection

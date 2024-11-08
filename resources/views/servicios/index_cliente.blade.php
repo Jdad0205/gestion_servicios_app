@@ -13,6 +13,12 @@
                             <h5 class="card-title">{{ $servicio->nombre }}</h5>
                             <p class="card-text">{{ $servicio->descripcion }}</p>
                             <p class="card-text"><strong>Precio:</strong> ${{ number_format($servicio->precio, 2) }}</p>
+
+                            <!-- Formulario para solicitar el servicio -->
+                            <form action="{{ route('servicios.solicitar', $servicio->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">Solicitar servicio</button>
+                            </form>
                         </div>
                     </div>
                 </div>

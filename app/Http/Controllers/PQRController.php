@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\PQR;
 use App\Models\Cliente;
+use App\Models\Servicio;
+
 
 use Illuminate\Http\Request;
 
@@ -149,6 +151,30 @@ public function solucionar(Request $request, $id)
 
     // Redirigir de vuelta a la vista indexSoporte con un mensaje de éxito
     return redirect()->route('pqr.index_soporte ')->with('success', 'Solución enviada y estado cambiado a Resuelta.');
+}
+
+// app/Http/Controllers/PqrController.php
+public function solicitarServicio($id)
+{
+    // Buscar el servicio por ID
+    $servicio = Servicio::findOrFail($id);
+    $user = Auth::user(); // Esto debería devolver el objeto del usuario autenticado
+            
+    // Verificar si el usuario tiene un cliente asociado
+    
+            // Buscar el cliente que tenga el mismo `id_usuario` que el `id` del usuario autenticado
+$cliente = Cliente::where('id_usuario', $user->id)->first();
+
+    // Crear una nueva PQR de tipo "Petición"
+    Pqr::create([
+        'id_cliente' => $cliente->id,   // Asegúrate de que el cliente esté autenticado
+        'servicio_id' => $servicio->id,
+        'tipo' => 'Petición',           // Especifica que es una solicitud de servicio
+        'descripcion' => 'Solicitud de servicio: ' . $servicio->descripcion, // Información adicional opcional
+    ]);
+
+    // Redirigir de vuelta con un mensaje de éxito
+    return redirect()->back()->with('success', '¡Solicitud de servicio enviada correctamente!');
 }
 
 
