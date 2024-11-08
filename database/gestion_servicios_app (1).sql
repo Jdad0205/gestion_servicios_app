@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-11-2024 a las 04:06:30
+-- Tiempo de generación: 08-11-2024 a las 09:08:10
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -58,6 +58,7 @@ CREATE TABLE `clientes` (
   `direccion` varchar(150) NOT NULL,
   `telefono` varchar(15) DEFAULT NULL,
   `detalle` text DEFAULT NULL,
+  `id_usuario` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -66,9 +67,10 @@ CREATE TABLE `clientes` (
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `nombre`, `correo`, `direccion`, `telefono`, `detalle`, `created_at`, `updated_at`) VALUES
-(1, 'Juan Perez', 'juan@example.com', '123 Calle Falsa', '5551234567', 'Cliente especial', '2024-11-08 00:19:01', '2024-11-08 00:19:01'),
-(2, 'Juan david', 'juandavid@gmail.com', 'ederremasteringsiu', '3113391450', NULL, '2024-11-08 06:39:32', '2024-11-08 06:39:32');
+INSERT INTO `clientes` (`id`, `nombre`, `correo`, `direccion`, `telefono`, `detalle`, `id_usuario`, `created_at`, `updated_at`) VALUES
+(1, 'Juan Perez', 'juan@example.com', '123 Calle Falsa', '5551234567', 'Cliente especial', 2, '2024-11-08 00:19:01', '2024-11-08 06:11:38'),
+(2, 'Juan david', 'juandavid@gmail.com', 'ederremasteringsiu', '3113391450', NULL, 1, '2024-11-08 06:39:32', '2024-11-08 06:11:26'),
+(3, 'juaco', 'EDERLUISMESTRA79@GMAIL.COM', 'OBRERO BLOQUE 4 MANZANA 33 CASA 12', '3113391450', NULL, 14, '2024-11-08 11:48:50', '2024-11-08 11:48:50');
 
 -- --------------------------------------------------------
 
@@ -244,6 +246,8 @@ CREATE TABLE `pqr` (
   `descripcion` text NOT NULL,
   `estado` enum('Pendiente','Resuelta') NOT NULL DEFAULT 'Pendiente',
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `descripcion_solucion` text DEFAULT NULL,
+  `fecha_solucion` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -252,8 +256,12 @@ CREATE TABLE `pqr` (
 -- Volcado de datos para la tabla `pqr`
 --
 
-INSERT INTO `pqr` (`id`, `id_cliente`, `tipo`, `descripcion`, `estado`, `fecha_creacion`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Petición', 'asdf', 'Pendiente', '2024-11-08 07:21:45', '2024-11-08 07:21:45', '2024-11-08 07:21:45');
+INSERT INTO `pqr` (`id`, `id_cliente`, `tipo`, `descripcion`, `estado`, `fecha_creacion`, `descripcion_solucion`, `fecha_solucion`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Petición', 'asdf', 'Resuelta', '2024-11-08 07:21:45', 'es muy facil mijo', '2024-11-08 07:15:37', '2024-11-08 07:21:45', '2024-11-08 12:15:37'),
+(2, 2, 'Petición', 'af', 'Resuelta', '2024-11-08 08:15:57', 'más fácil mijo jasja', '2024-11-08 07:15:49', '2024-11-08 08:15:57', '2024-11-08 12:15:49'),
+(9, 3, 'Petición', 'me muero', 'Resuelta', '2024-11-08 06:51:36', 'esto es muy fácl mijo, muy facil', '2024-11-08 07:16:11', '2024-11-08 11:51:36', '2024-11-08 12:16:11'),
+(10, 3, 'Reclamo', 'lkajflsdf', 'Resuelta', '2024-11-08 07:08:22', 'esto es muy fáicl mijo', '2024-11-08 07:22:46', '2024-11-08 12:08:22', '2024-11-08 12:22:46'),
+(12, 3, 'Petición', 'Solicitud de servicio: Descripción del servicio 1', 'Resuelta', '2024-11-08 07:40:59', 'no te lo voy a dar, no jodas.', '2024-11-08 07:43:15', '2024-11-08 12:40:59', '2024-11-08 12:43:15');
 
 -- --------------------------------------------------------
 
@@ -276,7 +284,9 @@ CREATE TABLE `productos` (
 
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `created_at`, `updated_at`) VALUES
 (1, 'Producto A', 'Descripción de Producto A', 100.00, '2024-11-08 00:19:01', '2024-11-08 00:19:01'),
-(2, 'Producto B', 'Descripción de Producto B', 150.00, '2024-11-08 00:19:01', '2024-11-08 00:19:01');
+(2, 'Producto B', 'Descripción de Producto B', 150.00, '2024-11-08 00:19:01', '2024-11-08 00:19:01'),
+(3, 'carro moto', 'el mejor carromoto de todos, corre por el aire, vuela por el agua, y nada por la tierra.', 100.00, '2024-11-08 04:54:03', '2024-11-08 04:54:03'),
+(1324, 'mototo', 'el mejor', 100.00, '2024-11-08 04:54:53', '2024-11-08 04:54:53');
 
 -- --------------------------------------------------------
 
@@ -296,7 +306,8 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `nombre`) VALUES
 (1, 'admin'),
 (2, 'cliente'),
-(3, 'tecnico');
+(3, 'soporte'),
+(4, 'tecnico');
 
 -- --------------------------------------------------------
 
@@ -308,7 +319,7 @@ CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `firma` varchar(100) DEFAULT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -317,8 +328,8 @@ CREATE TABLE `servicios` (
 -- Volcado de datos para la tabla `servicios`
 --
 
-INSERT INTO `servicios` (`id`, `nombre`, `descripcion`, `firma`, `created_at`, `updated_at`) VALUES
-(1, 'Servicio 1', 'Descripción del servicio 1', 'Firma1', '2024-11-08 00:19:01', '2024-11-08 00:19:01');
+INSERT INTO `servicios` (`id`, `nombre`, `descripcion`, `precio`, `created_at`, `updated_at`) VALUES
+(1, 'Servicio 1', 'Descripción del servicio 1', 2220.00, '2024-11-08 00:19:01', '2024-11-08 07:20:43');
 
 -- --------------------------------------------------------
 
@@ -340,8 +351,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('GbPNEGzaC66lKKxHt2DZYINR4Tv52LBeXkNmTXWS', 3, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWU4yYk8xckpRd2tKRGZmRkxnOEd5d1RHUldFbHVIc1FUSFNnMmpMNiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Njk6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbC9nZXN0aW9uX3NlcnZpY2lvc19hcHAvcHVibGljL3VzdWFyaW9zL2NyZWF0ZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7fQ==', 1731034877),
-('zidONc5TFsUZCbWVSN8T3SB2IFHisEH3ZhM9QjKZ', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNkdHcENqd1Y2c0dqczlMUVFBeGZMNDVQRmJPVUZWaHZRVXpWWTVKayI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NjM6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbC9nZXN0aW9uX3NlcnZpY2lvc19hcHAvcHVibGljL2Rhc2hib2FyZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1731031374);
+('TkyvJDzBL8mBAwSsur317ozNWIjvGB8WrzRu0KMw', 15, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWU4yYk8xckpRd2tKRGZmRkxnOEd5d1RHUldFbHVIc1FUSFNnMmpMNiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NjU6Imh0dHA6Ly9sb2NhbGhvc3QvbGFyYXZlbC9nZXN0aW9uX3NlcnZpY2lvc19hcHAvcHVibGljL3Bxci1zb3BvcnRlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTU7fQ==', 1731053252);
 
 -- --------------------------------------------------------
 
@@ -364,8 +374,19 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre_usuario`, `correo`, `contrasena`, `id_rol`, `created_at`, `updated_at`) VALUES
+(1, 'juaco', 'EDERLUISMESTRA19@GMAIL.COM', '$2y$12$HLws7tupRBJfD8xKOQ8QVuWq35rB7GTPR9ZrGJBaF3HmSInrbtRr2', 1, '2024-11-08 04:22:21', '2024-11-08 06:15:24'),
+(2, 'soso', 'eder@gmail.com', 'Eder1032', 2, '2024-11-08 02:43:52', '2024-11-08 06:15:56'),
 (3, 'tecnico1', 'tecnico1@example.com', 'hashedpassword', 3, '2024-11-08 00:19:01', '2024-11-08 00:19:01'),
-(4, 'soso', 'eder@gmail.com', 'Eder1032', 2, '2024-11-08 02:43:52', '2024-11-08 02:43:52');
+(5, 'michone', 'EDERLUISMESTRA9@GMAIL.COM', '$2y$12$XEfeRMVBBcFPAjbVW3jNcOOtiI81SvXE8nijbgU7r7L.xvN52F5Li', 1, '2024-11-08 04:09:45', '2024-11-08 04:09:45'),
+(6, 'michone', 'EDERLUISMESTRA99@GMAIL.COM', '$2y$12$PvPwi2zsjZ0MWBFJYfQeQO5eX3K/3XkssNEJkbulRG8JAF982PuTa', 1, '2024-11-08 04:14:42', '2024-11-08 04:14:42'),
+(8, 'juaco', 'juaco9@GMAIL.COM', '$2y$12$UdC8YKqGjVwcZSMTGlR6d.sWx99EkPB7uMjbdbKrPL/RC8ffUo.Bu', 2, '2024-11-08 04:29:31', '2024-11-08 04:29:31'),
+(9, 'eder mestra', 'edermestra@gmail.com', '$2y$12$jlBPazZGGgHUY0V8xYJ5Iuo3wE8cnbYojPpMpweXKRdvMCdqxJ6B6', 2, '2024-11-08 06:40:08', '2024-11-08 06:40:08'),
+(10, 'eder morelo', 'EDERLUISMESTRA999@GMAIL.COM', '$2y$12$q9aoE3k.6KVYynXM/O6GluyYMVtC0w8d7QpcJK6MLtjjWs72yC5bK', 2, '2024-11-08 06:42:06', '2024-11-08 06:42:06'),
+(11, 'asdf', 'asf@gmial.com', '$2y$12$DUYnNNYS1yMwpF9vS/jpiewmihOVy04BxZ2h2UkC/45uAoqT9q81i', 2, '2024-11-08 06:42:43', '2024-11-08 06:42:43'),
+(12, 'alksdf', 'EDERLUISMESTadsfRA9@GMAIL.COM', '$2y$12$SoBpEggfYuzTM5R0yOSbeOA4LCPxcrnNKIzXokBGwKJCgrUVPuy66', 2, '2024-11-08 06:44:20', '2024-11-08 06:44:20'),
+(13, 'eder', 'EDERLUISMESTRA998@GMAIL.COM', '$2y$12$UTRlKlIoEAzePEXcEZCCQevGG4Txzv1q9PVXHBomOwuX00QCIQn6q', 2, '2024-11-08 06:45:18', '2024-11-08 06:45:18'),
+(14, 'juaco', 'EDERLUISMESTRA79@GMAIL.COM', '$2y$12$AQTQPIqtqTicfEwQ9Mbuh.BtSNEFYHvU2PbVBAT1dLXTS4dssaucy', 2, '2024-11-08 06:48:50', '2024-11-08 06:48:50'),
+(15, 'sosororo', 'sososoro@gmail.com', '$2y$12$rXzzTeWaD93XQ7pcPH/ryePk/..On04OyV/eShsVbghR5DoDljWiW', 3, '2024-11-08 07:09:01', '2024-11-08 07:09:01');
 
 --
 -- Índices para tablas volcadas
@@ -388,7 +409,8 @@ ALTER TABLE `cache_locks`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `correo` (`correo`);
+  ADD UNIQUE KEY `correo` (`correo`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `contratos`
@@ -504,7 +526,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `contratos`
@@ -552,19 +574,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `pqr`
 --
 ALTER TABLE `pqr`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1325;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
@@ -576,11 +598,17 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
 -- Filtros para la tabla `contratos`
