@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Lista de Clientes</h1>
-    <a href="{{ route('clientes.create') }}" class="btn btn-primary mb-3 boton-crear">Crear Cliente</a>
+    <a href="{{ route('clientes.create') }}" class="btn btn-info mb-3 boton-crear">Crear Cliente</a>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -33,7 +33,7 @@
                         <form action="{{ route('clientes.destroy', $cliente) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            <button type="submit" class="btn btn-danger btn-sm"onclick="return confirm('¿Estás seguro de eliminar este servicio?')"><i class="bi bi-trash"></i></button>
                         </form>
                     </td>
                 </tr>

@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <h1>Servicios</h1>
-        <a href="{{ route('servicios.create') }}" class="btn btn-primary mb-3">Nuevo Servicio</a>
+        <a href="{{ route('servicios.create') }}" class="btn btn-info mb-3">Nuevo Servicio</a>
         
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -28,12 +28,12 @@
                         <td>{{ $servicio->descripcion }}</td>
                         <td>{{ $servicio->precio }}</td>
                         <td>
-                            <a href="{{ route('servicios.show', $servicio) }}" class="btn btn-info">Ver</a>
-                            <a href="{{ route('servicios.edit', $servicio) }}" class="btn btn-warning">Editar</a>
+                            <a href="{{ route('servicios.show', $servicio) }}" class="btn btn-info"><i class="bi bi-eye"></i></a>
+                            <a href="{{ route('servicios.edit', $servicio) }}" class="btn btn-info"><i class="bi bi-pencil"></i></a>
                             <form action="{{ route('servicios.destroy', $servicio) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este servicio?')">Eliminar</button>
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este servicio?')"><i class="bi bi-trash"></i></button>
                             </form>
                         </td>
                     </tr>
