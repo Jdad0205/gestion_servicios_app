@@ -27,7 +27,7 @@
                     <td>{{ $pqr->id }}</td>
                     <td>{{ $pqr->descripcion }}</td>
                     <td>{{ $pqr->tipo }}</td>
-                    <td>{{ $pqr->cliente->nombre_usuario ?? 'Sin Cliente' }}</td>
+                    <td>{{ $pqr->cliente->nombre ?? 'Sin Cliente' }}</td>
                     <td>{{ $pqr->descripcion_solucion ?? 'Sin Solución' }}</td>
                     <td>
                         @if (!$pqr->descripcion_solucion)
