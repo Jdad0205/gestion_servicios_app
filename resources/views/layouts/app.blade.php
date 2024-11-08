@@ -57,42 +57,45 @@
     <h2>
         <img class="icono-barra-lateral" src="{{asset('img/logo.png')}}" style="width: 100px; margin: auto;" alt="Logo de app">
     </h2>
-
     @auth
+    @if(Auth::user()->rol == 'admin')
+        <!-- Si el rol del usuario es 'admin' -->
+        <a href="{{ route('dashboard') }}" class="opcion-barra-navegacion {{ Request::is('dashboard') ? 'active' : '' }}">
+            <i class="bi bi-speedometer2"></i> <span class="texto-barra-lateral">Dashboard</span>
+        </a>
 
-    <a href="{{ route('dashboard') }}" class="opcion-barra-navegacion {{ Request::is('dashboard') ? 'active' : '' }}">
-    <i class="bi bi-speedometer2"></i> <span class="texto-barra-lateral">Dashboard</span>
-</a>
+        <a href="{{ route('usuarios.index') }}" class="opcion-barra-navegacion {{ Request::is('usuarios*') ? 'active' : '' }}">
+            <i class="bi bi-person"></i> <span class="texto-barra-lateral">Usuarios</span>
+        </a>
 
-<a href="{{ route('usuarios.index') }}" class="opcion-barra-navegacion {{ Request::is('usuarios*') ? 'active' : '' }}">
-    <i class="bi bi-person"></i> <span class="texto-barra-lateral">Usuarios</span>
-</a>
+        <a href="{{ route('clientes.index') }}" class="opcion-barra-navegacion {{ Request::is('clientes*') ? 'active' : '' }}">
+            <i class="bi bi-file-text"></i><span class="texto-barra-lateral">Clientes</span>
+        </a>
 
-<a href="{{ route('clientes.index') }}" class="opcion-barra-navegacion {{ Request::is('clientes*') ? 'active' : '' }}">
-<i class="bi bi-file-text"></i><span class="texto-barra-lateral">Clientes</span>
-</a>
+        <a href="{{ route('productos.index') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
+            <i class="bi bi-box"></i> <span class="texto-barra-lateral">Productos</span>
+        </a>
 
-<a href="{{ route('productos.index') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
-    <i class="bi bi-box"></i> <span class="texto-barra-lateral">Productos</span>
-</a>
+        <a href="{{ route('servicios.index') }}" class="opcion-barra-navegacion {{ Request::is('servicios*') ? 'active' : '' }}">
+            <i class="bi bi-tools"></i> <span class="texto-barra-lateral">Servicios</span>
+        </a>
 
-<a href="{{ route('servicios.index') }}" class="opcion-barra-navegacion {{ Request::is('servicios*') ? 'active' : '' }}">
-    <i class="bi bi-tools"></i> <span class="texto-barra-lateral">Servicios</span>
-</a>
+        <a href="{{ route('facturas.index') }}" class="opcion-barra-navegacion {{ Request::is('facturas*') ? 'active' : '' }}">
+            <i class="bi bi-file-text"></i><span class="texto-barra-lateral">Facturas</span>
+        </a>
 
-<a href="{{ route('facturas.index') }}" class="opcion-barra-navegacion {{ Request::is('facturas*') ? 'active' : '' }}">
-<i class="bi bi-file-text"></i><span class="texto-barra-lateral">Facturas</span>
-</a>
-
-<a href="{{ route('pqr.index') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">
-<i class="bi bi-envelope-exclamation"></i>
-    <span class="texto-barra-lateral">PQR</span>
-</a>
-
-
-
-
+        <a href="{{ route('pqr.index') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">
+            <i class="bi bi-envelope-exclamation"></i>
+            <span class="texto-barra-lateral">PQR</span>
+        </a>
+    @else
+        <!-- Si el rol del usuario no es 'admin' -->
+        <a href="#" class="opcion-barra-navegacion">
+            <span class="texto-barra-lateral">No es admin</span>
+        </a>
+    @endif
 @endauth
+
 
 
 
