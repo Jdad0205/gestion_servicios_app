@@ -51,6 +51,9 @@ Route::middleware(['auth'])->group(function () {
     // Rutas de Facturas
     Route::resource('facturas', FacturaController::class);
 
+    Route::get('/pqr-soporte', [PQRController::class, 'indexSoporte'])->name('pqr.index_soporte');
+    Route::post('/pqrs-soporte/{id}/solucionar', [PqrController::class, 'solucionar'])->name('soporte.pqrs.solucionar')->middleware('auth');
+
     Route::get('/pqr-cliente', [PQRController::class, 'indexCliente'])->name('pqr.index_cliente');
     Route::resource('pqr', PQRController::class);
 });

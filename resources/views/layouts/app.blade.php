@@ -91,6 +91,11 @@
             <i class="bi bi-envelope-exclamation"></i>
             <span class="texto-barra-lateral">PQR</span>
         </a>
+        @elseif(auth()->user()->id_rol == '3')
+        <a href="{{ route('pqr.index_soporte') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">
+            <i class="bi bi-envelope-exclamation"></i>
+            <span class="texto-barra-lateral">PQR</span>
+        </a>
         @endif
         @endauth
 

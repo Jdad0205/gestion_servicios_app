@@ -125,4 +125,31 @@ class PQRController extends Controller
     $pqrs = PQR::paginate(9); // Puedes ajustar la cantidad por página
     return view('pqr.index_cliente', compact('pqrs'));
 }
+
+public function indexSoporte()
+{
+    $pqrs = Pqr::with('cliente')->get();
+    return view('pqr.index_soporte', compact('pqrs'));
+}
+
+public function solucionar(Request $request, $id)
+{
+    // Validación del campo descripcion_solucion
+    $request->validate([
+        'descripcion_solucion' => 'required|string|max:255',
+    ]);
+
+    // Buscar el PQR por su ID
+    $pqr = Pqr::findOrFail($id);
+
+    // Asignar la solución y cambiar el estado a "Resuelta"
+    $pqr->descripcion_solucion = $request->descripcion_solucion;
+    $pqr->estado = 'Resuelta';  // Cambia el estado a "Resuelta"
+    $pqr->save();
+
+    // Redirigir de vuelta a la vista indexSoporte con un mensaje de éxito
+    return redirect()->route('pqr.index_soporte ')->with('success', 'Solución enviada y estado cambiado a Resuelta.');
+}
+
+
 }
