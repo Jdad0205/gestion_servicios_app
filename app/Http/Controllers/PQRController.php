@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PQR;
 use App\Models\Cliente;
 use App\Models\Servicio;
+use App\Models\Producto;
 
 
 use Illuminate\Http\Request;
