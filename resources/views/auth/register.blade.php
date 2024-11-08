@@ -47,6 +47,34 @@
 
         </div>
 
+        
+        <!-- Correo Electrónico -->
+        <div>
+            <label for="direccion">Dirección</label>
+            <input 
+                id="direccion" 
+                type="text" 
+                name="direccion" 
+                value="{{ old('direccion') }}" 
+                required 
+                placeholder="Ingresa tu dirección"
+            >
+
+        </div>
+
+        <div>
+            <label for="telefono">Teléfono</label>
+            <input 
+                id="telefono" 
+                type="number" 
+                name="telefono" 
+                value="{{ old('telefono') }}" 
+                required 
+                placeholder="Ingresa tu teléfono"
+            >
+
+        </div>
+
         <!-- Contraseña -->
         <div>
             <label for="password">Contraseña</label>

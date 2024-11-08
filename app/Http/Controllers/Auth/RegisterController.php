@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -32,23 +33,36 @@ class RegisterController extends Controller
                 'contrasena' => 'required|min:8|confirmed',
                 'id_rol' => 'required|exists:roles,id'
             ]);
-
+    
             // Crear el usuario
-            User::create([
+            $user = User::create([
                 'nombre_usuario' => $request->nombre_usuario,
                 'correo' => $request->correo,
                 'contrasena' => Hash::make($request->contrasena),
                 'id_rol' => $request->id_rol,
             ]);
-
+    
+            // Si el rol es de cliente, crear el registro en la tabla `clientes`
+            if ($request->id_rol == 2) { // Suponiendo que el rol 'cliente' tiene id = 3
+                DB::table('clientes')->insert([
+                    'id_usuario' => $user->id,
+                    'nombre' => $request->nombre_usuario,
+                    'correo' => $request->correo,
+                    'direccion' =>$request->direccion,
+                    'telefono' =>$request->telefono,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+    
             // Redirigir al usuario al dashboard con mensaje de éxito
-            return redirect()->route('dashboard')->with('success', 'Usuario registrado y autenticado correctamente.');
+            return redirect()->route('login')->with('success', 'Usuario registrado y autenticado correctamente.');
         } catch (\Exception $e) {
             // Loguear el error para referencia interna
             Log::error('Error en el registro de usuario: ' . $e->getMessage());
-
+    
             // Redirigir con el error
-            return redirect()->route('register')->with('error', 'Hubo un problema al registrar al usuario. Por favor, inténtelo nuevamente.'  . $e->getMessage());
+            return redirect()->route('register')->with('error', 'Hubo un problema al registrar al usuario. Por favor, inténtelo nuevamente.' . $e->getMessage());
         }
     }
-}
+    }

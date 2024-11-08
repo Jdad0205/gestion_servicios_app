@@ -39,23 +39,24 @@ class PQRController extends Controller
     // Verificar si el usuario está autenticado
     if (Auth::check()) {  // Usando la fachada Auth en lugar de auth()
         $user = Auth::user(); // Esto debería devolver el objeto del usuario autenticado
-        
-          // Verificar si el usuario tiene un cliente asociado
-        
-        // Buscar el cliente que tenga el mismo `id_usuario` que el `id` del usuario autenticado
+            
+            // Verificar si el usuario tiene un cliente asociado
+            
+                    // Buscar el cliente que tenga el mismo `id_usuario` que el `id` del usuario autenticado
         $cliente = Cliente::where('id_usuario', $user->id)->first();
 
-          if (!$cliente) {
-              return redirect()->back()->with('error', 'No se encontró un cliente asociado con este usuario.');
-          }
-  
-          dd($user, $cliente);
-        // Crear el registro de PQR en la base de datos
-        Pqr::create([
-            'descripcion' => $request->descripcion,
-            'tipo' => $request->tipo,
-            'id_cliente' => $cliente->id,  // Asociar el ID del usuario autenticado
-        ]);
+
+            if (!$cliente) {
+                return redirect()->back()->with('error', 'No se encontró un cliente asociado con este usuario.');
+            }
+    
+        
+            // Crear el registro de PQR en la base de datos
+            Pqr::create([
+                'descripcion' => $request->descripcion,
+                'tipo' => $request->tipo,
+                'id_cliente' => $cliente->id,  // Asociar el ID del usuario autenticado
+            ]);
 
         return redirect()->back()->with('success', 'Su PQR ha sido registrado con éxito.');
     } else {

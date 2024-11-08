@@ -20,4 +20,9 @@ class Cliente extends Model
     {
         return $this->hasMany(Factura::class, 'id_cliente');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_usuario');
+    }
 }
