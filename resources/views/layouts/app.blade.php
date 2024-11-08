@@ -75,8 +75,11 @@
         <a href="{{ route('facturas.index') }}" class="opcion-barra-navegacion {{ Request::is('facturas*') ? 'active' : '' }}">
             <i class="bi bi-file-text"></i><span class="texto-barra-lateral">Facturas</span>
         </a>
-        @elseif(auth()->user()->id_rol == '2')
         <a href="{{ route('productos.index') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
+            <i class="bi bi-box"></i> <span class="texto-barra-lateral">Productos</span>
+        </a>
+        @elseif(auth()->user()->id_rol == '2')
+        <a href="{{ route('productos.index_cliente') }}" class="opcion-barra-navegacion {{ Request::is('productos*') ? 'active' : '' }}">
             <i class="bi bi-box"></i> <span class="texto-barra-lateral">Productos</span>
         </a>
         <a href="{{ route('pqr.index') }}" class="opcion-barra-navegacion {{ Request::is('pqr*') ? 'active' : '' }}">

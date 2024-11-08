@@ -40,8 +40,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('clientes', ClienteController::class);
 
     // Rutas de Productos
+    Route::get('/productos/cliente', [ProductoController::class, 'indexCliente'])->name('productos.index_cliente');
     Route::resource('productos', ProductoController::class);
-
+    // Ruta para el cliente
+    
     // Rutas de Servicios
     Route::resource('servicios', ServicioController::class);
 

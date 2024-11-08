@@ -1,6 +1,5 @@
 <?php 
 namespace App\Http\Controllers;
-namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
@@ -61,4 +60,11 @@ class ProductoController extends Controller
         $producto->delete();
         return redirect()->route('productos.index');
     }
+
+    public function indexCliente()
+    {
+        $productos = Producto::all();
+        return view('productos.index_cliente', compact('productos'));
+    }
+ 
 }
