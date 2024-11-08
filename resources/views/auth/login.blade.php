@@ -55,11 +55,11 @@
 
             <i class="bi bi-person">
 
-            </i><input type="email" name="email" placeholder="Correo electrónico" required>
+            </i><input type="email" name="correo" placeholder="Correo electrónico" required>
 
 
             <i class="bi bi-key"></i>
-            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
             <button type="button" id="togglePassword" style="width:fit-content; position: absolute; top: 49.2%; left: 83%;">
                 <i class="bi bi-eye"></i>
             </button>

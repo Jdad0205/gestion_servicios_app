@@ -2,48 +2,53 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
     // Muestra el formulario de registro
     public function showRegistrationForm()
     {
-         // Obtener todos los roles desde la base de datos
-         $roles = DB::table('roles')->get();
+        // Obtener todos los roles desde la base de datos
+        $roles = DB::table('roles')->get();
 
-         // Pasar los roles a la vista
-         return view('auth.register', compact('roles'));
+        // Pasar los roles a la vista
+        return view('auth.register', compact('roles'));
     }
 
     // Maneja el registro de nuevos usuarios
     public function register(Request $request)
     {
-        // Validar la solicitud
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:Usuarios',
-            'password' => 'required|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id', // Validar que role_id exista en la tabla 'roles'
-        ]);
+        try {
+            // Validar la solicitud
+            $request->validate([
+                'nombre_usuario' => 'required|max:50',
+                'correo' => 'required|email|unique:usuarios,correo',
+                'contrasena' => 'required|min:8|confirmed',
+                'id_rol' => 'required|exists:roles,id'
+            ]);
 
-        // Crear el usuario
-        $Usuario = Usuario::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password), // Encriptar la contraseña
-            'role_id' => $request->role_id, // Asignar el rol del usuario
-        ]);
+            // Crear el usuario
+            User::create([
+                'nombre_usuario' => $request->nombre_usuario,
+                'correo' => $request->correo,
+                'contrasena' => Hash::make($request->contrasena),
+                'id_rol' => $request->id_rol,
+            ]);
 
-        // Autenticar al usuario recién registrado
-        Auth::login($Usuario);
+            // Redirigir al usuario al dashboard con mensaje de éxito
+            return redirect()->route('dashboard')->with('success', 'Usuario registrado y autenticado correctamente.');
+        } catch (\Exception $e) {
+            // Loguear el error para referencia interna
+            Log::error('Error en el registro de usuario: ' . $e->getMessage());
 
-        // Redirigir al usuario al dashboard
-        return redirect()->route('dashboard');
+            // Redirigir con el error
+            return redirect()->route('register')->with('error', 'Hubo un problema al registrar al usuario. Por favor, inténtelo nuevamente.'  . $e->getMessage());
+        }
     }
 }

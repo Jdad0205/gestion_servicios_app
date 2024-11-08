@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/alertas.js') }}"></script>
+
 </head>
 <body>
 <div class="contenedor-registro">
@@ -18,59 +20,53 @@
 
         <!-- Nombre del usuario -->
         <div>
-            <label for="name">Nombre Completo</label>
+            <label for="nombre_usuario">Nombre Completo</label>
             <input 
-                id="name" 
+                id="nombre_usuario" 
                 type="text" 
-                name="name" 
-                value="{{ old('name') }}" 
+                name="nombre_usuario" 
+                value="{{ old('nombre_usuario') }}" 
                 required 
                 autofocus 
                 placeholder="Ingresa tu nombre completo"
             >
-            @error('name')
-                <span class="text-red-500">{{ $message }}</span>
-            @enderror
+
         </div>
 
         <!-- Correo Electrónico -->
         <div>
-            <label for="email">Correo Electrónico</label>
+            <label for="correo">Correo Electrónico</label>
             <input 
-                id="email" 
+                id="correo" 
                 type="email" 
-                name="email" 
-                value="{{ old('email') }}" 
+                name="correo" 
+                value="{{ old('correo') }}" 
                 required 
                 placeholder="Ingresa tu correo electrónico"
             >
-            @error('email')
-                <span class="text-red-500">{{ $message }}</span>
-            @enderror
+
         </div>
 
         <!-- Contraseña -->
         <div>
             <label for="password">Contraseña</label>
             <input 
-                id="password" 
+                id="contrasena" 
                 type="password" 
-                name="password" 
+                name="contrasena" 
                 required 
                 placeholder="Ingresa tu contraseña"
             >
-            @error('password')
-                <span class="text-red-500">{{ $message }}</span>
-            @enderror
+     
         </div>
 
         <!-- Confirmar Contraseña -->
         <div>
-            <label for="password_confirmation">Confirmar Contraseña</label>
+            <label for="contrasena_confirmation">Confirmar Contraseña</label>
             <input 
-                id="password_confirmation" 
+                id="contrasena_confirmation" 
                 type="password" 
-                name="password_confirmation" 
+                name="contrasena_confirmation" 
                 required 
                 placeholder="Confirma tu contraseña"
             >
@@ -78,16 +74,14 @@
 
         <!-- Selección de Rol -->
         <div>
-            <label for="role_id">Rol</label>
-            <select id="role_id" name="role_id" required>
+            <label for="id_rol">Rol</label>
+            <select id="id_rol" name="id_rol" required>
                 <option value="" disabled selected>Selecciona un rol</option>
                 @foreach($roles as $role)
                     <option value="{{ $role->id }}">{{ $role->nombre }}</option>
                 @endforeach
             </select>
-            @error('role_id')
-                <span class="text-red-500">{{ $message }}</span>
-            @enderror
+
         </div>
 
         <!-- Botón de envío -->
@@ -97,5 +91,25 @@
     </form>
 
 </div>
+
+<!-- Scripts de mensajes -->
+@if(session('success'))
+    <script>
+        mensajeDeExito("{{ session('success') }}");
+    </script>
+@endif
+
+@if(session('error'))
+    <script>
+        mensajeDeError("{{ session('error') }}");
+    </script>
+@endif
+
+@if(session('warning'))
+    <script>
+        mensajeDeAdvertencia("{{ session('warning') }}");
+    </script>
+@endif
+
 </body>
 </html>

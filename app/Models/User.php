@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         $this->remember_token = $value;
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id_rol');
+    }
 }
