@@ -3,8 +3,8 @@
     /* Variables de color */
     --color-fondo: #f8f9fa;
     --color-texto: #333;
-    --color-principal: #39A900;
-    --color-primario-claro: #007832;
+    --color-principal: #007e9e;
+    --color-primario-claro: #007e9e;
     --color-borde: #e0e0e0;
     --color-fondo-oscuro: #333;
     --color-texto-oscuro: #f8f9fa;
@@ -72,18 +72,18 @@ input:focus {
         padding: 10px;
         border: none;
         border-radius: 5px;
-        background-color: #4CAF50;
+        background-color: #007e9e;
         color: white;
         cursor: pointer;
         transition: background-color 0.3s;
     }
     button:hover {
-        background-color: #45a049;
+        background-color: #007e9e;
     }
     a {
         display: block;
         text-decoration: none;
-        color: #4CAF50;
+        color: #007e9e;
     }
     .error-message {
         background-color: rgba(255, 0, 0, 0.2);

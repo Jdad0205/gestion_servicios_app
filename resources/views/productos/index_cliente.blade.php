@@ -14,7 +14,7 @@
         <div class="row">
             @foreach($productos as $producto)
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card-servicios">
                         <div class="card-body">
                             <h5 class="card-title">{{ $producto->nombre }}</h5>
                             <p class="card-text">{{ $producto->descripcion }}</p>

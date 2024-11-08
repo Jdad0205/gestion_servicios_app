@@ -595,3 +595,6 @@ box-shadow: none;
     font-weight: bold;
     color: white;
 }
+.modo-oscuro .card-servicios {
+    background-color: var(--color-borde-oscuro);
+}
